@@ -1,6 +1,5 @@
 package com.sds.captcha;
 
-import com.sds.captcha.config.CaptchaProperties;
 import com.sds.exception.BadConfigurationException;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.ChineseCaptcha;

@@ -18,10 +18,8 @@ package com.sds.jwt;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.sds.jwt.config.JwtProperties;
 import com.sds.redis.CachedUser;
-import com.sds.redis.RedisUtils;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
@@ -43,7 +40,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JWTProvider implements InitializingBean {
 
-    private final JwtProperties jwtProperties;
+    private final JWTProperties jwtProperties;
     private final CachedUser cachedUser;
     public static final String onlineUserinfoKey = "onlineUserInfo";
     private Algorithm algorithm;

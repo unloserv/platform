@@ -60,28 +60,33 @@ public class MyBatisPlusGenerator {
     // 全局配置
     GlobalConfig gc = new GlobalConfig();
     String projectPath = System.getProperty("user.dir");
-    String ouputPath = "/platform-manage";
+    String ouputPath = "/platform-common";
     gc.setOutputDir(projectPath + ouputPath + "/src/main/java");
     gc.setAuthor("caoshuai");
     gc.setOpen(false);
     gc.setSwagger2(true);
     gc.setBaseResultMap(true);
     // 不覆盖 防止摧毁宝贵的代码。。。
-    gc.setFileOverride(false);
+    gc.setFileOverride(true);
     mpg.setGlobalConfig(gc);
 
     // 数据源配置
     DataSourceConfig dsc = new DataSourceConfig();
-    dsc.setUrl("jdbc:mysql://39.104.113.97:3306/sds_platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
+//    dsc.setUrl("jdbc:mysql://39.104.113.97:3306/sds_platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
+//    dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+//    dsc.setUsername("sdsadmin");
+//    dsc.setPassword("123456");
+    dsc.setUrl("jdbc:mysql://localhost:3306/platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
     dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-    dsc.setUsername("sdsadmin");
-    dsc.setPassword("123456");
+    dsc.setUsername("root");
+    dsc.setPassword("bjhj123");
+
     mpg.setDataSource(dsc);
 
     // 包配置
     PackageConfig pc = new PackageConfig();
-    pc.setModuleName("sys");
-    pc.setParent("com.sds.modules");
+//    pc.setModuleName("sys");
+    pc.setParent("com.sds");
     mpg.setPackageInfo(pc);
 
     // 自定义配置

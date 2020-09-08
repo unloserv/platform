@@ -23,6 +23,7 @@ spring:
       - login
       - rsa
       - redis
+      - dev
 
   jackson:
     serialization:

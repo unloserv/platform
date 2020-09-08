@@ -1,6 +1,6 @@
 package com.sds.redis;
 
-import com.sds.jwt.config.JwtProperties;
+import com.sds.jwt.JWTProperties;
 import com.sds.redis.dto.OnlineUser;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CachedUser {
 
-  private final JwtProperties jwtProperties;
+  private final JWTProperties jwtProperties;
   private final RedisUtils redisUtils;
 
   private static final String TOKEN = "token";
