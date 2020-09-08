@@ -71,9 +71,10 @@ public class AreaAdminController {
     @GetMapping("/userList")
     public ResponseEntity<List<User>> userList() {
         return ResponseEntity.ok(
-                userService.list(
-                        userService.lambdaQuery()
-                                .select(User::getId, User::getNickName, User::getGender)
-                                .eq(User::getCompanyId, currentUser.getCurrentUser().getCompanyId())));
+                userService.lambdaQuery()
+                        .select(User::getId, User::getNickName, User::getGender)
+                        .eq(User::getCompanyId, currentUser.getCurrentUser().getCompanyId())
+                        .list()
+        );
     }
 }

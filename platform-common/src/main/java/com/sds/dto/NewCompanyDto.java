@@ -30,6 +30,7 @@ public class NewCompanyDto {
     company.setSort(this.sort);
     company.setCreateBy(onlineUser.getNickName());
     company.setCreateTime(LocalDateTime.now());
+    company.setEnableFlag(true);
     return company;
   }
 }
