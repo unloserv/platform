@@ -7,6 +7,7 @@ import com.sds.service.IDictDetailService;
 import com.sds.service.IRiskService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sds.vo.RiskStatusCountVo;
+import com.sds.vo.RiskTypeCountVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,19 +33,27 @@ public class RiskServiceImpl extends ServiceImpl<RiskMapper, Risk> implements IR
     private final IDictDetailService dictDetailService;
 
     @Override
-    public List<RiskStatusCountVo> getStatusCount(Long companyId) {
-        List<Map<String, Integer>> statusCount = riskMapper.selectStatusCount(companyId);
+    public List<RiskStatusCountVo> getStatusCount(Long companyId, Long adminUserId) {
+        List<RiskStatusCountVo> statusCount = riskMapper.selectStatusCount(companyId, adminUserId);
         List<DictDetail> dictDetailList = dictDetailService.getDictDetailByDictName("risk_status");
-        List<RiskStatusCountVo> voList = new ArrayList<>(dictDetailList.size());
-        dictDetailList.stream().forEach(dictDetail -> {
-            RiskStatusCountVo countVo = new RiskStatusCountVo();
-            countVo.setStatus(Integer.valueOf(dictDetail.getValue()));
-            countVo.setStatusName(dictDetail.getLabel());
-            countVo.setCount(statusCount.stream()
-                    .filter(map -> dictDetail.getLabel().equals(map.get("status")))
-                    .findFirst().get().get("count"));
-            voList.add(countVo);
-        });
-        return voList;
+        statusCount.stream()
+            .forEach(statusCountVo -> statusCountVo.setStatusName(
+                dictDetailList.stream()
+                    .filter(dictDetail -> Integer.valueOf(dictDetail.getValue()).equals(statusCountVo.getStatus()))
+                    .findFirst().get().getLabel()));
+            return statusCount;
     }
+
+    @Override
+    public List<RiskTypeCountVo> getTypeCount(Long companyId, Long adminUserId, Integer status) {
+        List<RiskTypeCountVo> typeCount = riskMapper.selectTypeCount(companyId, adminUserId, status);
+        List<DictDetail> dictDetailList = dictDetailService.getDictDetailByDictName("risk_type");
+        typeCount.stream()
+            .forEach(typeCountVo -> typeCountVo.setTypeName(
+                dictDetailList.stream()
+                    .filter(dictDetail -> Integer.valueOf(dictDetail.getValue()).equals(typeCountVo.getType()))
+                    .findFirst().get().getLabel()));
+        return typeCount;
+    }
+
 }

@@ -1,16 +1,13 @@
 package com.sds.dto;
 
-import com.sds.entity.RiskLog;
 import com.sds.entity.RiskLogImage;
 import com.sds.redis.dto.OnlineUser;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class NewRiskLogImageDto {

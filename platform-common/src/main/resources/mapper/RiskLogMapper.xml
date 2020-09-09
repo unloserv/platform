@@ -11,7 +11,7 @@
         <result column="update_time" property="updateTime" />
         <result column="company_id" property="companyId" />
         <result column="risk_id" property="riskId" />
-        <result column="describe" property="describe" />
+        <result column="remark" property="remark" />
         <result column="handler_user_name" property="handlerUserName" />
         <result column="handler_user_id" property="handlerUserId" />
     </resultMap>

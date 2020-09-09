@@ -4,6 +4,7 @@ import com.sds.entity.Risk;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sds.vo.RiskStatusCountVo;
 
+import com.sds.vo.RiskTypeCountVo;
 import java.util.List;
 import java.util.Map;
 
@@ -22,5 +23,13 @@ public interface IRiskService extends IService<Risk> {
      * @param companyId
      * @return
      */
-    List<RiskStatusCountVo> getStatusCount(Long companyId);
+    List<RiskStatusCountVo> getStatusCount(Long companyId, Long adminUserId);
+
+
+    /**
+     * 获取隐患类型的数量统计
+     * @param companyId
+     * @return
+     */
+    List<RiskTypeCountVo> getTypeCount(Long companyId, Long adminUserId, Integer status);
 }

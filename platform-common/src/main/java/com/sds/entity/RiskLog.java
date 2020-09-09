@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author caoshuai
- * @since 2020-09-07
+ * @since 2020-09-09
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -37,8 +37,8 @@ public class RiskLog extends BaseEntity {
     @TableField("risk_id")
     private Long riskId;
 
-    @TableField("describe")
-    private String describe;
+    @TableField("remark")
+    private String remark;
 
     @TableField("handler_user_name")
     private String handlerUserName;

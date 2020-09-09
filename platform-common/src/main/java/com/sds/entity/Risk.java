@@ -17,7 +17,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author caoshuai
- * @since 2020-09-07
+ * @since 2020-09-09
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -63,6 +63,10 @@ public class Risk extends BaseEntity {
     @ApiModelProperty(value = "重复举报flag")
     @TableField("duplicate_flag")
     private Boolean duplicateFlag;
+
+    @ApiModelProperty(value = "重复举报隐患title")
+    @TableField("duplicate_risk_title")
+    private String duplicateRiskTitle;
 
     @ApiModelProperty(value = "重复举报隐患id")
     @TableField("duplicate_risk_id")

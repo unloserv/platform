@@ -67,19 +67,19 @@ public class MyBatisPlusGenerator {
     gc.setSwagger2(true);
     gc.setBaseResultMap(true);
     // 不覆盖 防止摧毁宝贵的代码。。。
-    gc.setFileOverride(true);
+    gc.setFileOverride(false);
     mpg.setGlobalConfig(gc);
 
     // 数据源配置
     DataSourceConfig dsc = new DataSourceConfig();
-//    dsc.setUrl("jdbc:mysql://39.104.113.97:3306/sds_platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
-//    dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-//    dsc.setUsername("sdsadmin");
-//    dsc.setPassword("123456");
-    dsc.setUrl("jdbc:mysql://localhost:3306/platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
+    dsc.setUrl("jdbc:mysql://39.104.113.97:3306/platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
+    dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+    dsc.setUsername("sdsadmin");
+    dsc.setPassword("123456");
+/*    dsc.setUrl("jdbc:mysql://localhost:3306/platform?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true");
     dsc.setDriverName("com.mysql.cj.jdbc.Driver");
     dsc.setUsername("root");
-    dsc.setPassword("bjhj123");
+    dsc.setPassword("bjhj123");*/
 
     mpg.setDataSource(dsc);
 

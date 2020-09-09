@@ -49,15 +49,17 @@ public class NewRiskDto {
 
     private NewRiskLogDto newRiskLogDto;
 
-    private NewRiskLogImageDto newRiskLogImageDto;
-
     public Risk trans(OnlineUser onlineUser) {
         Risk risk = new Risk();
         risk.setAreaId(this.areaId);
         risk.setAdminUserId(this.adminUserId);
         risk.setAdminUserName(this.adminUserName);
         risk.setStatus(0);
+        risk.setTitle(this.title);
         risk.setType(adminUserId.equals(onlineUser.getId()) ? 1 : 2);
+        if (risk.getType() == 1) {
+            risk.setStatus(1);
+        }
         risk.setCompanyId(onlineUser.getCompanyId());
         risk.setCreateBy(onlineUser.getNickName());
         risk.setCreateTime(LocalDateTime.now());

@@ -18,12 +18,13 @@ logging:
 spring:
   profiles:
     include:
+      - dev
       - captcha
       - jwt
       - login
       - rsa
       - redis
-      - dev
+      - file
 
   jackson:
     serialization:

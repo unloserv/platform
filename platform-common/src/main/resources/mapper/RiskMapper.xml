@@ -17,6 +17,7 @@
         <result column="type" property="type" />
         <result column="status" property="status" />
         <result column="duplicate_flag" property="duplicateFlag" />
+        <result column="duplicate_risk_title" property="duplicateRiskTitle" />
         <result column="duplicate_risk_id" property="duplicateRiskId" />
     </resultMap>
 
