@@ -23,7 +23,7 @@ public interface IRiskService extends IService<Risk> {
      * @param companyId
      * @return
      */
-    List<RiskStatusCountVo> getStatusCount(Long companyId, Long adminUserId);
+    List<RiskStatusCountVo> getStatusCount(Long companyId);
 
 
     /**
@@ -31,5 +31,6 @@ public interface IRiskService extends IService<Risk> {
      * @param companyId
      * @return
      */
-    List<RiskTypeCountVo> getTypeCount(Long companyId, Long adminUserId, Integer status);
+    List<RiskTypeCountVo> getTypeCount(Long companyId, Integer status);
+
 }

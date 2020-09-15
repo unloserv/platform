@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/area")
 @RequiredArgsConstructor
 @Api(tags = "区域：区域管理")
-@PreAuthorize("hasRole('ADMIN')")
 @Slf4j
 public class AreaController {
 
@@ -41,6 +40,7 @@ public class AreaController {
 
     @ApiOperation("新增区域")
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity create(@Validated @RequestBody NewAreaDto area){
         areaService.save(area.trans(currentUser.getCurrentUser()));
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -48,6 +48,7 @@ public class AreaController {
 
     @ApiOperation("删除区域")
     @DeleteMapping("/{areaId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity remove(@PathVariable("areaId") Long areaId){
         areaService.removeById(areaId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -55,6 +56,7 @@ public class AreaController {
 
     @ApiOperation("区域列表")
     @GetMapping("/list")
+    @PreAuthorize("hasAnyRole('ADMIN','NORMAL')")
     public ResponseEntity list(
             @RequestParam(value = "keyword", required = false) String keyword) {
         LambdaQueryChainWrapper<Area> qcw = areaService.lambdaQuery();

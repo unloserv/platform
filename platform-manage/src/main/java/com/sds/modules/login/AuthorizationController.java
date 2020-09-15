@@ -2,6 +2,7 @@ package com.sds.modules.login;
 
 import com.sds.annotation.AnonymousAccess;
 import com.sds.captcha.CaptchaProvider;
+import com.sds.redis.CachedUser;
 import com.sds.rsa.RsaProperties;
 import com.sds.exception.BadRequestException;
 import com.sds.jwt.JWTProperties;
@@ -48,6 +49,8 @@ public class AuthorizationController {
   private final LoginProperties loginProperties;
 
   private final AuthenticationManagerBuilder authenticationManagerBuilder;
+  private final CachedUser cachedUser;
+
 
   @ApiOperation("获取验证码")
   @AnonymousAccess()
@@ -94,7 +97,9 @@ public class AuthorizationController {
     // 返回 token 与 用户信息
     Map<String, Object> userInfo = new HashMap<String, Object>(2) {{
       put("token", jwtProperties.getTokenStartWith() + loginUserDto.getToken());
+      put("auth", loginUserDto.getAuthorities());
     }};
     return ResponseEntity.ok(userInfo);
   }
+
 }

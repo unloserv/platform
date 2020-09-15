@@ -15,17 +15,17 @@
  */
 package com.sds.service.impl;
 
+import com.sds.entity.User;
 import com.sds.exception.BadRequestException;
 import com.sds.jwt.JWTProvider;
-import com.sds.security.LoginProperties;
-import com.sds.service.dto.LoginUserDto;
-import com.sds.entity.User;
-import com.sds.service.IUserService;
 import com.sds.redis.CachedUser;
 import com.sds.redis.dto.OnlineUser;
+import com.sds.security.LoginProperties;
+import com.sds.service.IUserService;
+import com.sds.service.IUsersRolesService;
+import com.sds.service.dto.LoginUserDto;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,6 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final CachedUser cachedUser;
     private final JWTProvider jwtProvider;
     private final LoginProperties loginProperties;
+    private final IUsersRolesService usersRolesService;
 
     @Override
     public LoginUserDto loadUserByUsername(String username) {
@@ -75,23 +76,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 onlineUser.setAddress("address");
                 cachedUser.setLoginUserCache(onlineKey, onlineUser);
                 // 注入用户信息
-                cachedUser.setAuthorityCache(onlineKey, getAuthorityList().stream().collect(
-                    Collectors.toList()));
+                cachedUser.setAuthorityCache(onlineKey, getAuthority(user.getId()));
             }
         }
         return new LoginUserDto(
             user.getUsername(),
             user.getPassword(),
-            getAuthorityList(),
+            getAuthority(user.getId()),
             token);
     }
 
-    private Collection<SimpleGrantedAuthority> getAuthorityList(){
-        return Arrays.asList(
-            new SimpleGrantedAuthority[]{
-                new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_USER")
-            });
+    private List<SimpleGrantedAuthority> getAuthority(Long userId){
+        return usersRolesService.getRoleListByUserId(userId).stream()
+            .map(role -> new SimpleGrantedAuthority(role.getName()))
+            .collect(Collectors.toList());
     }
 
 }

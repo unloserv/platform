@@ -36,7 +36,6 @@ import java.util.List;
 @RequestMapping("/area/admin")
 @RequiredArgsConstructor
 @Api(tags = "区域：区域管理员管理")
-@PreAuthorize("hasRole('ADMIN')")
 @Slf4j
 public class AreaAdminController {
 
@@ -46,6 +45,7 @@ public class AreaAdminController {
 
     @ApiOperation("新增区域管理员")
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity create(@Validated @RequestBody NewAreaAdminDto areaAdmin){
         areaAdminService.save(areaAdmin.trans(currentUser.getCurrentUser()));
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -53,6 +53,7 @@ public class AreaAdminController {
 
     @ApiOperation("删除区域管理员")
     @DeleteMapping("/{adminAreaId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Object> remove(@PathVariable("adminAreaId") Long adminAreaId){
         areaAdminService.removeById(adminAreaId);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -60,6 +61,7 @@ public class AreaAdminController {
 
     @ApiOperation("区域管理员列表")
     @GetMapping("/list")
+    @PreAuthorize("hasAnyRole('ADMIN','NORMAL')")
     public ResponseEntity list(
             @RequestParam("areaId") String areaId) {
         LambdaQueryWrapper<AreaAdmin> qw = Wrappers.lambdaQuery();
@@ -69,6 +71,7 @@ public class AreaAdminController {
 
     @ApiOperation("人员列表")
     @GetMapping("/userList")
+    @PreAuthorize("hasAnyRole('ADMIN','NORMAL')")
     public ResponseEntity<List<User>> userList() {
         return ResponseEntity.ok(
                 userService.lambdaQuery()

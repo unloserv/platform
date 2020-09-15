@@ -1,7 +1,6 @@
 package com.sds.modules.risk;
 
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.sds.dto.NewRiskLogConfirmHandleDto;
 import com.sds.dto.NewRiskLogDto;
 import com.sds.dto.NewRiskLogHandleDto;
@@ -52,12 +51,7 @@ public class RiskLogController {
   @GetMapping("/list/{riskId}")
   public ResponseEntity list(
       @PathVariable("riskId") Long riskId){
-    LambdaQueryChainWrapper<RiskLog> lqcw = riskLogService.lambdaQuery();
-    // todo 根据权限划分查看内容
-    lqcw.eq(RiskLog::getCompanyId, currentUser.getCurrentUser().getCompanyId());
-    lqcw.eq(RiskLog::getRiskId, riskId);
-    lqcw.orderByDesc(RiskLog::getId);
-    return ResponseEntity.ok(lqcw.list());
+    return ResponseEntity.ok(riskLogService.getRiskLogVoList(currentUser.getCurrentUser().getCompanyId(), riskId));
   }
 
   @ApiOperation("安全隐患-自主发现->[>主任直接处理<]")

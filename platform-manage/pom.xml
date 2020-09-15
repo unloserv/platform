@@ -6,17 +6,19 @@
     <artifactId>platform</artifactId>
     <groupId>com.sds</groupId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>platform-manage</artifactId>
+  <name>platform-manage</name>
+  <packaging>jar</packaging>
 
   <dependencies>
     <!-- 内部引用 -->
     <dependency>
       <groupId>com.sds</groupId>
       <artifactId>platform-common</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
@@ -42,5 +44,12 @@
     </dependency>
   </dependencies>
 
-
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

@@ -16,4 +16,18 @@
         <result column="handler_user_id" property="handlerUserId" />
     </resultMap>
 
+    <resultMap id="riskLogVoMap" type="com.sds.vo.RiskLogVo">
+        <association property="riskLog" autoMapping="true" javaType="com.sds.entity.RiskLog"/>
+        <collection property="riskLogImageList" autoMapping="true" ofType="com.sds.entity.RiskLogImage"/>
+    </resultMap>
+
+    <select id="selectRiskLogVo" resultMap="riskLogVoMap">
+        SELECT * FROM risk_log rl
+        LEFT JOIN risk_log_image rli on rli.risk_log_id = rl.id
+        <where>
+            rl.company_id = #{companyId}
+            AND
+            rl.risk_id = #{riskId}
+        </where>
+    </select>
 </mapper>

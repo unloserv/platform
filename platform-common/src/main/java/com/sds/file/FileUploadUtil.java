@@ -1,12 +1,16 @@
 package com.sds.file;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,13 +26,13 @@ public class FileUploadUtil {
 
   private final FileProperties fileProperties;
 
-  public FileUploadResult uploadFile(MultipartFile file){
+  public FileUploadResult uploadFile(String moduleName, MultipartFile file){
     FileUploadResult fileUploadResult = new FileUploadResult();
     fileUploadResult.setFilename(file.getOriginalFilename());
     String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).toLowerCase();
     String dateString = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
     String fileName = UUID.randomUUID() + suffix;
-    String filePath = fileProperties.getPath().getPath() + dateString + File.separator + fileName;
+    String filePath = fileProperties.getPath().getPath() + File.separator + moduleName + File.separator + dateString + File.separator + fileName;
     try {
       File dest = new File(filePath).getCanonicalFile();
       // 检测是否存在目录
@@ -40,7 +44,7 @@ public class FileUploadUtil {
       file.transferTo(dest);
       fileUploadResult.setResultCode(1);
       fileUploadResult.setResult("上传成功");
-      fileUploadResult.setFilepath(dateString + File.separator + fileName);
+      fileUploadResult.setFilepath(moduleName + File.separator + dateString + File.separator + fileName);
     } catch (IOException e) {
       log.debug("上传文件时发生错误", e.getMessage());
       fileUploadResult.setResultCode(-3);
@@ -67,6 +71,31 @@ public class FileUploadUtil {
       return null;
     }
     return attachment;
+  }
+
+  public void downloadFile(HttpServletRequest request, HttpServletResponse response, File file, boolean deleteOnExit) {
+    response.setCharacterEncoding(request.getCharacterEncoding());
+    response.setContentType("application/octet-stream");
+    FileInputStream fis = null;
+    try {
+      fis = new FileInputStream(file);
+      response.setHeader("Content-Disposition", "attachment; filename=" + file.getName());
+      IOUtils.copy(fis, response.getOutputStream());
+      response.flushBuffer();
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+    } finally {
+      if (fis != null) {
+        try {
+          fis.close();
+          if (deleteOnExit) {
+            file.deleteOnExit();
+          }
+        } catch (IOException e) {
+          log.error(e.getMessage(), e);
+        }
+      }
+    }
   }
 
 

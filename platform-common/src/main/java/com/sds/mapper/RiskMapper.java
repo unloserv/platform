@@ -21,17 +21,17 @@ public interface RiskMapper extends BaseMapper<Risk> {
     @Select("SELECT `status`, COUNT(1) `count` "
         + "FROM `risk` "
         + "WHERE `company_id` = #{companyId} "
-        + "AND `admin_user_id` = #{adminUserId} "
-        + "GROUP BY `status`")
-    List<RiskStatusCountVo> selectStatusCount(@Param("companyId") Long companyId, @Param("adminUserId") Long adminUserId);
+        + "GROUP BY `status` "
+        + "ORDER BY `status`")
+    List<RiskStatusCountVo> selectStatusCount(@Param("companyId") Long companyId);
 
     @Select("<script>"
         + "SELECT `type`, COUNT(1) `count` "
         + "FROM `risk` "
         + "WHERE `company_id` = #{companyId} "
-        + "AND `admin_user_id` = #{adminUserId} "
         + "<if test='status != null'>AND `status` = #{status} </if>"
-        + "GROUP BY `type`"
+        + "GROUP BY `type` "
+        + "ORDER BY `type`"
         + "</script>")
-    List<RiskTypeCountVo> selectTypeCount(@Param("companyId") Long companyId, @Param("adminUserId") Long adminUserId, @Param("status") Integer status);
+    List<RiskTypeCountVo> selectTypeCount(@Param("companyId") Long companyId, @Param("status") Integer status);
 }

@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/riskImage")
 @RequiredArgsConstructor
 @Api(tags = "安全隐患记录:图片")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN','NORMAL')")
 @Slf4j
 public class RiskImageController {
 
@@ -42,7 +42,7 @@ public class RiskImageController {
   public ResponseEntity<FileUploadResult> attachmentAdd(
       @RequestParam("file") MultipartFile file
   ){
-    FileUploadResult fileUploadResult = fileUploadUtil.uploadFile(file);
+    FileUploadResult fileUploadResult = fileUploadUtil.uploadFile("risk_image", file);
     return ResponseEntity.ok(fileUploadResult);
   }
 

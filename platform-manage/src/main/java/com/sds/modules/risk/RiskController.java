@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.sds.dto.NewRiskDto;
 import com.sds.entity.Risk;
 import com.sds.entity.RiskLog;
+import com.sds.redis.CachedUser;
 import com.sds.redis.CurrentUser;
 import com.sds.service.IRiskLogImageService;
 import com.sds.service.IRiskLogService;
@@ -40,11 +41,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/risk")
 @RequiredArgsConstructor
 @Api(tags = "安全隐患")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN','NORMAL')")
 @Slf4j
 public class RiskController {
 
   private final CurrentUser currentUser;
+  private final CachedUser cachedUser;
   private final IRiskService riskService;
   private final IRiskLogService riskLogService;
   private final IRiskLogImageService riskLogImageService;
@@ -66,7 +68,7 @@ public class RiskController {
   @ApiOperation("安全隐患状态字典")
   @GetMapping("/statusDict")
   public ResponseEntity<List<RiskStatusCountVo>> statusDict(){
-    return ResponseEntity.ok(riskService.getStatusCount(currentUser.getCurrentUser().getCompanyId(), currentUser.getCurrentUser().getId()));
+    return ResponseEntity.ok(riskService.getStatusCount(currentUser.getCurrentUser().getCompanyId()));
   }
 
   @ApiOperation("安全隐患类型字典")
@@ -74,7 +76,7 @@ public class RiskController {
   public ResponseEntity<List<RiskTypeCountVo>> typeDict(
       @RequestParam(value = "status", required = false) Integer status
   ){
-    return ResponseEntity.ok(riskService.getTypeCount(currentUser.getCurrentUser().getCompanyId(), currentUser.getCurrentUser().getId(), status));
+    return ResponseEntity.ok(riskService.getTypeCount(currentUser.getCurrentUser().getCompanyId(), status));
   }
 
   @ApiOperation("安全隐患列表")
@@ -83,10 +85,7 @@ public class RiskController {
       @RequestParam("status") Integer status,
       @RequestParam(value = "type", required = false) Integer type){
     LambdaQueryChainWrapper<Risk> lqcw = riskService.lambdaQuery();
-    // todo 根据权限划分查看内容
-    lqcw
-        .eq(Risk::getCompanyId, currentUser.getCurrentUser().getCompanyId())
-        .eq(Risk::getAdminUserId, currentUser.getCurrentUser().getId());
+    lqcw.eq(Risk::getCompanyId, currentUser.getCurrentUser().getCompanyId());
     if (status != null) {
       lqcw.eq(Risk::getStatus, status);
     }

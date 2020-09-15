@@ -6,13 +6,19 @@
     <artifactId>platform</artifactId>
     <groupId>com.sds</groupId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>platform-common</artifactId>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>com.baomidou</groupId>
       <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -42,4 +48,5 @@
       <artifactId>java-jwt</artifactId>
     </dependency>
   </dependencies>
+
 </project>
