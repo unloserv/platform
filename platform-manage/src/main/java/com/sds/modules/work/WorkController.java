@@ -77,21 +77,21 @@ public class WorkController {
         .eq(Work::getCompanyId, currentUser.getCurrentUser().getCompanyId());
     switch (type) {
       case 1:
-        //待处理 是发起人 或者 当前处理人
+        //待处理 是当前处理人
         lqcw.nested(qcw -> qcw
-            .eq(Work::getStartUserId, currentUser.getCurrentUser().getId())
-            .or()
             .eq(Work::getNowUserId, currentUser.getCurrentUser().getId())
-        );
+            .nested(w -> w.eq(Work::getEndFlag, false).or().isNull(Work::getEndFlag)))
+        ;
         break;
       case 2:
         //处理中 是发起人
-        lqcw.eq(Work::getStartUserId, currentUser.getCurrentUser().getId());
+        lqcw.eq(Work::getStartUserId, currentUser.getCurrentUser().getId())
+            .nested(w -> w.eq(Work::getEndFlag, false).or().isNull(Work::getEndFlag)) ;
         break;
       case 3:
         //已完成 是发起人
         lqcw.eq(Work::getStartUserId, currentUser.getCurrentUser().getId())
-        .eq(Work::getEndFlag, false);
+            .eq(Work::getEndFlag, true);
         break;
     }
     return ResponseEntity.ok(lqcw.list());

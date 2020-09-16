@@ -8,8 +8,10 @@ import com.sds.service.IDictDetailService;
 import com.sds.service.IRiskService;
 import com.sds.vo.RiskStatusCountVo;
 import com.sds.vo.RiskTypeCountVo;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +50,9 @@ public class RiskServiceImpl extends ServiceImpl<RiskMapper, Risk> implements IR
                 s.setStatusName(dictDetail.getLabel());
             }
         });
-        return statusCount;
+        return statusCount.stream()
+            .sorted(Comparator.comparing(RiskStatusCountVo::getStatus))
+            .collect(Collectors.toList());
     }
 
     @Override
@@ -70,7 +74,9 @@ public class RiskServiceImpl extends ServiceImpl<RiskMapper, Risk> implements IR
                 t.setTypeName(dictDetail.getLabel());
             }
         });
-        return typeCount;
+        return typeCount.stream()
+            .sorted(Comparator.comparing(RiskTypeCountVo::getType))
+            .collect(Collectors.toList());
     }
 
 }

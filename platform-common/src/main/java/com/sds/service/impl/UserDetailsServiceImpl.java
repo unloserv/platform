@@ -83,7 +83,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             user.getUsername(),
             user.getPassword(),
             getAuthority(user.getId()),
-            token);
+            token,
+            cachedUser.getLoginUserCache(onlineKey));
     }
 
     private List<SimpleGrantedAuthority> getAuthority(Long userId){

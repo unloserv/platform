@@ -1,5 +1,6 @@
 package com.sds.service.dto;
 
+import com.sds.redis.dto.OnlineUser;
 import java.util.Collection;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +18,15 @@ public class LoginUserDto extends User {
   @Getter
   private String token;
 
+  @Getter
+  @Setter
+  private OnlineUser onlineUser;
+
   public LoginUserDto(String username, String password,
-      Collection<? extends GrantedAuthority> authorities, String token) {
+      Collection<? extends GrantedAuthority> authorities,
+      String token, OnlineUser onlineUser) {
     super(username, password, authorities);
     this.token = token;
+    this.onlineUser = onlineUser;
   }
 }

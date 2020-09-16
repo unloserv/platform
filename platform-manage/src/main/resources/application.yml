@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /platform
+
 mybatis-plus:
   global-config:
     banner: false
@@ -12,11 +16,10 @@ logging:
       resultset: off
       resultsettable: off
       audit: off
+  file:
+    path: /cloud/kindergarten/data/log/
 
 spring:
-  application:
-    name: platform
-
   profiles:
     include:
       - captcha
@@ -30,3 +33,7 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: true
+
+  servlet:
+    multipart:
+      max-file-size: 20MB

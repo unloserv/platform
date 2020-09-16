@@ -11,4 +11,4 @@ spring:
       max-lifetime: 300000 #5分钟
 
 swagger:
-  enabled: false
+  enabled: true

@@ -98,6 +98,7 @@ public class AuthorizationController {
     Map<String, Object> userInfo = new HashMap<String, Object>(2) {{
       put("token", jwtProperties.getTokenStartWith() + loginUserDto.getToken());
       put("auth", loginUserDto.getAuthorities());
+      put("onlineUser", loginUserDto.getOnlineUser());
     }};
     return ResponseEntity.ok(userInfo);
   }

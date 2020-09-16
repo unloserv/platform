@@ -4,11 +4,9 @@ file:
     path: ~/Documents/code/open_sources_project/file/
     avatar: ~/Documents/code/open_sources_project/avatar/
   linux:
-    path: /cloud/data/file/
-    avatar: /cloud/data/avatar/
+    path: /cloud/kindergarten/data/static/
+    avatar: /cloud/kindergarten/data/static/
   windows:
     path: D:\cloud\file\
     avatar: D:\cloud\avatar\
-  # 文件大小 /M
-  maxSize: 100
   avatarMaxSize: 5
